@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-app-config-map
+  namespace: application
+data:
+  APP_ENV: "production"
+  LOG_LEVEL: "info"
+  PORT: "8080"
