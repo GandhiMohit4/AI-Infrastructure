@@ -1,0 +1,47 @@
+name: GitOps Update
+
+on:
+  workflow_run:
+    workflows:
+      - "Application CI"
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  update-manifest:
+    name: Update Kubernetes Image
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set image tag
+        run: |
+          echo "IMAGE_TAG=${{ github.event.workflow_run.head_sha }}" >> "$GITHUB_ENV"
+
+      - name: Update deployment image
+        working-directory: infrastructure-platform/kubernetes/base/application/sample-app
+        run: |
+          sed -i \
+            "s|image: .*|image: ${{ secrets.ECR_REGISTRY }}/sample-app:${IMAGE_TAG:0:7}|" \
+            deployment.yaml
+
+      - name: Commit GitOps change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add infrastructure-platform/kubernetes/base/application/sample-app/deployment.yaml
+
+          git diff --cached --quiet || \
+            git commit -m "chore(gitops): update sample-app image"
+
+          git push origin main

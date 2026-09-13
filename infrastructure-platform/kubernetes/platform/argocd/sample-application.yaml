@@ -9,7 +9,7 @@ spec:
     # --- REPLACE THIS LINE ---
     repoURL: 'https://github.com/GandhiMohit4/AI-Infrastructure.git'
     targetRevision: HEAD
-    path: infrastructure-platform/kubernetes/base/application/sample-app 
+    path: infrastructure-platform/kubernetes/overlays/dev
     server: 'https://kubernetes.default.svc'
     namespace: application  #Deploy the app into this namespace
   syncPolicy:
