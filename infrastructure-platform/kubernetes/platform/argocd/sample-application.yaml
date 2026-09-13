@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sample-app
+  namespace: platform
+spec:
+  project: default
+  source:
+    # --- REPLACE THIS LINE ---
+    repoURL: 'https://github.com/GandhiMohit4/AI-Infrastructure.git'
+    targetRevision: HEAD
+    path: infrastructure-platform/kubernetes/base/application/sample-app 
+    server: 'https://kubernetes.default.svc'
+    namespace: application  #Deploy the app into this namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true # ArgoCD will create the 'hello-world' namespace if it doesn't exist
