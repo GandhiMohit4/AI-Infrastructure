@@ -73,8 +73,3 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
-
-variable "depends_on" {
-  type    = any
-  default = []
-}

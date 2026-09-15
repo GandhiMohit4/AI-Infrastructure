@@ -47,5 +47,4 @@ resource "aws_eks_node_group" "this" {
 
   tags = var.tags
 
-  depends_on = var.depends_on
 }
