@@ -5,6 +5,8 @@ metadata:
   namespace: application
   labels:
     app: sample-app
+    app.kubernetes.io/component: application
+    app.kubernetes.io/name: sample-app
 
 spec:
   replicas: 5
@@ -12,12 +14,16 @@ spec:
   selector:
     matchLabels:
       app: sample-app
+      app.kubernetes.io/component: application
+      app.kubernetes.io/name: sample-app
 
   template:
     metadata:
       labels:
         app: sample-app
-
+        app.kubernetes.io/component: application
+        app.kubernetes.io/name: sample-app
+        
     spec:
       serviceAccountName: sample-app
 
