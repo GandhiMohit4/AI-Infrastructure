@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sample-app-nginx-config
+  namespace: application
+
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        # -----------------------------------------------
+        # Normal application traffic
+        # -----------------------------------------------
+        location / {
+            root /usr/share/nginx/html;
+            index index.html;
+        }
+
+        # -----------------------------------------------
+        # NGINX metrics source for nginx-prometheus-exporter
+        # -----------------------------------------------
+        location /nginx_status {
+            stub_status;
+
+            # Only allow requests from localhost.
+            # The exporter runs in the same Pod.
+            allow 127.0.0.1;
+            deny all;
+        }
+    }
