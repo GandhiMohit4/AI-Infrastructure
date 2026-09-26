@@ -3,9 +3,23 @@ kind: Service
 metadata:
   name: sample-app
   namespace: application
+  labels:
+    app: sample-app
+
 spec:
+  type: ClusterIP
+
   selector:
     app: sample-app
+
   ports:
-    - protocol: TCP
+
+    # Normal application traffic
+    - name: http
       port: 80
+      targetPort: http
+
+    # Prometheus metrics
+    - name: metrics
+      port: 9113
+      targetPort: metrics

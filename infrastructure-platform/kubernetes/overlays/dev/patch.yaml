@@ -6,4 +6,4 @@ metadata:
   labels:
     app: sample-app
 spec:
-  replicas: 1
+  replicas: 3
