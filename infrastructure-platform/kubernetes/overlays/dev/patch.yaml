@@ -3,7 +3,5 @@ kind: Deployment
 metadata:
   name: sample-app
   namespace: application
-  labels:
-    app: sample-app
 spec:
   replicas: 3
